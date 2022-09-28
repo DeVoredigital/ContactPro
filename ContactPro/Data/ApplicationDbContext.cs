@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ContactPro.Models;
-
+using System.Security.Cryptography.X509Certificates;
 
 namespace ContactPro.Data
 {
@@ -11,5 +11,9 @@ namespace ContactPro.Data
             : base(options)
         {
         }
+
+        public virtual DbSet<Contact> Contacts { get; set; } = default!;
+        public virtual DbSet<Category> Categories { get; set; } = default!;
+
     }
 }
