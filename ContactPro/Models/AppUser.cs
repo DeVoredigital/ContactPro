@@ -1,6 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ContactPro.Controllers;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
+using ContactPro.Enums;
+using ContactPro.Models;
 
 
 namespace ContactPro.Models
@@ -22,5 +28,8 @@ namespace ContactPro.Models
         [NotMapped]
         public string? FullName { get { return $"{FirstName} {LastName}"; } }
 
+        // Viruals
+        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
+        public virtual ICollection<Contact> Contacts { get; set; } = new HashSet<Contact>();
     }
 }
