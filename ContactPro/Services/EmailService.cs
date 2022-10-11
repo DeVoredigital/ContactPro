@@ -16,18 +16,26 @@ namespace ContactPro.Services
 
             _mailSettings = mailSettings.Value;
         }
-
-
-
+  
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var emailSender = _mailSettings.Email;
 
             MimeMessage newEmail = new();
 
-            newEmail.Sender = MailboxAddress.Parse(emailSender);
-             
-            foreach(var emailAddress in email.Split(";"))
+            newEmail.From.Add(MailboxAddress.Parse(emailSender));
+
+            // YES
+            // newEmail.From.Add(MailboxAddress.Parse(emailSender));
+            // Works, hard coded - newEmail.From.Add(MailboxAddress.Parse("red@devore.digital"));
+
+            // NOPE
+            // Doesn't work, Maybe for Google - newEmail.Sender = MailboxAddress.Parse(emailSender);
+            // newEmail.Sender(MailboxAddress.Parse(emailSender));
+
+
+
+            foreach (var emailAddress in email.Split(";"))
             {
                 newEmail.To.Add(MailboxAddress.Parse(emailAddress));
             }
@@ -58,8 +66,10 @@ namespace ContactPro.Services
 
 
             }
-            catch
+            catch(Exception ex)
             {
+                var error = ex.Message;
+                throw;
 
             }
 

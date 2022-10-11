@@ -1,4 +1,4 @@
-﻿namespace ContactPro.Models.ViewModels
+﻿ namespace ContactPro.Models.ViewModels
 {
     public class EmailContactViewModel
     {

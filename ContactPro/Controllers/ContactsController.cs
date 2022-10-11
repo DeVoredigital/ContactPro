@@ -126,7 +126,7 @@ namespace ContactPro.Controllers
         {
 
             string appUserId = _userManager.GetUserId(User);
-            Contact? contact = await _context.Contacts.Where(c => c.Id == id && c.AppUserId == appUserId)
+            Contact contact = await _context.Contacts.Where(c => c.Id == id && c.AppUserId == appUserId)
                                                      .FirstOrDefaultAsync();
             if (contact == null)
             {
@@ -154,7 +154,6 @@ namespace ContactPro.Controllers
 
         [HttpPost]
         [Authorize]
-
         public async Task<IActionResult> EmailContact(EmailContactViewModel ecvm)
         {
 
