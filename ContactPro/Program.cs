@@ -6,14 +6,17 @@ using ContactPro.Services;
 using ContactPro.Services.Interfaces;
 using ContactPro.Service;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using ContactPro.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add during scaffolding for SQLserver :  var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
 // Add services to the container.
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var  connectionString = builder.Configuration.GetSection("pgSettings")["pgConnection"];
 
-var  connectionString = builder.Configuration.GetSection("pgSettings")["pgConnection"];
+var connectionString = ConnectionHelper.GetConnectionString(builder.Configuration);
+
 
 /* If Using SQLSERVER
   builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -45,6 +48,10 @@ builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailS
 
 
 var app = builder.Build();
+var scope = app.Services.CreateScope();
+//Keep the database updated with the latest migration
+await DataHelper.ManageDataAsync(scope.ServiceProvider);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
